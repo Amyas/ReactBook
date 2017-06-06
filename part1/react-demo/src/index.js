@@ -1,60 +1,44 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import './index.css';
 
-class Title extends Component {
-    handleClickOnTitle(e){
-        console.log(this)
+class LikeButton extends Component {
+    constructor(){
+        super();
+        this.state = {
+            isLiked : false
+        }
     }
-    render(){
-        return(
-            <h1
-                onClick={this.handleClickOnTitle}
-            >React小书</h1>
-        )
-    }
-}
 
-class Header extends React.Component {
-    render(){
-        return(
-            <div>
-                <Title/>
-                <h1>头部</h1>
-            </div>
-        )
+    handleClickOnLikeButton () {
+        this.setState({
+            isLiked: !this.state.isLiked
+        })
     }
-}
 
-class Index extends React.Component {
     render(){
-        return(
-           <Header/>
-        )
-    }
-}
-
-class Dog extends Component {
-    bark(){
-        console.log('brak')
-    }
-    run(){
-        console.log('run')
-    }
-    render(){
-        return(
-            <div
-                onClick={() => {
-                    this.bark();
-                    this.run();
-                }}
+        return (
+            <button
+                onClick={this.handleClickOnLikeButton.bind(this)}
             >
-                DOG
+                {this.state.isLiked ? '取消' : '点赞'}
+            </button>
+        )
+    }
+}
+
+class Index extends Component {
+    render(){
+        return (
+            <div>
+                <LikeButton/>
             </div>
         )
     }
 }
+
 
 ReactDOM.render(
-    <Dog />,
+    <Index/>,
     document.getElementById('root')
 );
