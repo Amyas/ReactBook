@@ -1,63 +1,63 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-class Header extends Component {
-    constructor () {//1
-        super()
-        console.log('construct')
+class Clock extends Component {
+    constructor() {
+        super();
+        this.state = {
+            data: new Date()
+        }
     }
 
-    componentWillMount () {//2.页面渲染前
-        /***
-         * 组件挂载开始之前，也就是在组件调用 render 方法之前调用
-         */
-        console.log('component will mount')
+    componentWillMount() {
+        this.timer = setInterval(() => {
+            this.setState({
+                data: new Date()
+            })
+        },1000)
     }
 
-    componentDidMount () {//4.页面渲染后
-        /***
-         * 组件挂载完成以后，也就是 DOM 元素已经插入页面后调用
-         */
-        console.log('component did mount')
+    componentWillUnmount() {
+        clearInterval(this.timer)
     }
 
-    componentWillUnmount() {//5.页面卸载前
-        /***
-         * 组件对应的 DOM 元素从页面中删除之前调用。
-         */
-        console.log('component will unmount')
-    }
-
-    render () {//3.页面渲染
-        console.log('render')
+    render() {
         return (
             <div>
-                <h1 className='title'>React 小书</h1>
+                <h1>
+                    <p>现在的时间是:</p>
+                    {this.state.data.toLocaleTimeString()}
+                </h1>
             </div>
         )
     }
 }
+/***
+ * toLocaleTimeString  时间对象的字符串
+ */
 
 class Index extends Component {
     constructor() {
-        super()
+        super();
         this.state = {
-            isShowHeader: true
+            isShowClock: true
         }
     }
 
-    handleShowOrHide () {
+    handleShowOrHide() {
         this.setState({
-            isShowHeader: !this.state.isShowHeader
+            isShowClock: !this.state.isShowClock
         })
     }
 
-    render () {
+    render() {
         return (
             <div>
-                {this.state.isShowHeader ? <Header /> : null}
-                <button onClick={this.handleShowOrHide.bind(this)}>
-                    显示或者隐藏标题
+                {this.state.isShowClock ? <Clock/> : null}
+                <button
+                    onClick={this.handleShowOrHide.bind(this)}
+                >
+                    显示或隐藏时钟
                 </button>
             </div>
         )
