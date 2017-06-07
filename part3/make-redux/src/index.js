@@ -9,18 +9,31 @@ const appState = {
     }
 }
 
-function renderApp(appState) {
+const oldState = appState;
+appState.title.text = '《React.js 小书》';
+oldState !== appState;
+
+const obj = {a:1, b:2};
+const obj2 = {...obj};
+
+function renderApp(newAppState, oldAppState = {}) {
+    if (newAppState === oldAppState) return;
+    console.log('render app')
     renderTitle(appState.title);
     renderContent(appState.content);
 }
 
-function renderTitle(title) {
+function renderTitle(newTitle, oldTitle = {}) {
+    if (newTitle === oldTitle) return;
+    console.log('render title')
     const titleDOM = document.getElementById('title');
     titleDOM.innerHTML = title.text;
     titleDOM.style.color = title.color;
 }
 
-function renderContent(content) {
+function renderContent(newContent, oldContent = {}) {
+    if (newContent === oldContent) return;
+    console.log('render content')
     const contentDOM = document.getElementById('content');
     contentDOM.innerHTML = content.text;
     contentDOM.style.color = content.color;
@@ -55,11 +68,20 @@ function createStore(state, stateChanger) {
 }
 
 const store = createStore(appState, stateChanger);
-store.subscribe(() => renderApp(store.getState()));
+let oldState = store.getState();
+store.subscribe(() => {
+    const newState = store.getState();
+    renderApp(store.getState();
+    oldState = newState;
+}));
 
 renderApp(store.getState());
 
 store.dispatch({
     type: 'UPDATE_TITLE_TEXT',
     text: '《React.js 小书》'
+})
+store.dispatch({
+    type: 'UPDATE_TITLE_COLOR',
+    color: 'green'
 })
